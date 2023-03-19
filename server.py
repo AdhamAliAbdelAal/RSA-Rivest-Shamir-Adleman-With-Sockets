@@ -26,14 +26,15 @@ client2 = []
 # this function handles the client connection
 def handle_client(conn, addr):
     tid = threading.current_thread().ident
-    print("thread id", tid)
+    #print("thread id", conn)
     while True:
-        message = conn.recv(5).decode('utf-8')
+        message = conn.recv(1024).decode('utf-8')
         if message:
             print(message)
             if message == 'DISCONNECT':
                 conn.close()
                 break
+            conn.send("ok ya adham!!".encode('utf-8'))
 
 
 def start():
@@ -56,6 +57,8 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 threading.Thread(target=start).start()
+
+# terminate server
 pid = os.getpid()
 while True:
     exit=input()

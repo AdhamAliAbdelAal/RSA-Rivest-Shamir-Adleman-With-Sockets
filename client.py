@@ -1,6 +1,7 @@
 import socket
 import threading
-import time
+import sys
+import signal
 
 SERVER= socket.gethostbyname(socket.gethostname())
 PORT = 5050
@@ -14,7 +15,12 @@ client.connect(ADDR)
 
 # this function handles the client connection
 def receive():
-    print("receive!!!!")
+    while True:
+        while True:
+            message=client.recv(1024).decode('utf-8')
+            if message:
+                break
+        print(message)
 
 def send():
     while True:
@@ -27,3 +33,11 @@ def send():
 
 threading.Thread(target=receive).start()
 threading.Thread(target=send).start()
+
+def signal_handler(sig, frame):
+    print('You pressed Ctrl+C!')
+    client.send("DISCONNECT".encode('utf-8'))
+    client.close()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
