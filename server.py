@@ -19,13 +19,15 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the server socket to the address
 server.bind(ADDR)
 
-client1 = []
-client2 = []
+clients_conns = [None]*2
 
 
 # this function handles the client connection
 def handle_client(conn, addr):
-    tid = threading.current_thread().ident
+    me= threading.active_count()-3
+    clients_conns[me]=conn
+    you=1-me
+    print("hab3at",you)
     #print("thread id", conn)
     while True:
         message = conn.recv(1024).decode('utf-8')
@@ -34,7 +36,7 @@ def handle_client(conn, addr):
             if message == 'DISCONNECT':
                 conn.close()
                 break
-            conn.send("ok ya adham!!".encode('utf-8'))
+            clients_conns[you].send(message.encode('utf-8'))
 
 
 def start():
@@ -45,7 +47,7 @@ def start():
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
         print(
-            f'[CLIENT NUMBER {threading.active_count() - 1} IS CONNECTED]')
+            f'[CLIENT NUMBER {threading.active_count() - 2} IS CONNECTED]')
 
 
 # to handle the ctrl+c
