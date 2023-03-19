@@ -7,5 +7,17 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 print('Press Ctrl+C')
-while(1):
-    pass
+
+def encoder(message):
+    result= 0
+    for (i,c) in enumerate(message):
+        if(c>='0' and c<='9'):
+            val=ord(c)-ord('0')
+        elif(c>='a' and c<='z'):
+            val=ord(c)-ord('a')+10
+        else:
+            val=36
+        result+=val*(37**i)
+    return result
+
+print(encoder("hello"))
