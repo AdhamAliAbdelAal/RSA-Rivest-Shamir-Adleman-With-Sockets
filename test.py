@@ -29,27 +29,27 @@ def gcd(a,b,x,y):
         x=y_prev-(b//a)*x_prev
         y=x_prev
         return (x,y,gcd_val)
-# p=7823
-# q=7919
-# n=p*q
-# e=n-2
-# fai = (p-1)*(q-1)
-# print(gcd( e,fai,1,1))
+p=319993
+q= 999331
+n=p*q
+e=n-2
+fai = (p-1)*(q-1)
+print(gcd( e,fai,1,1))
 #print(1<<4300)
 
-def power_mod(a,b,n):
-    x = 1 
-    power = a%n
-    for i in range(0,4300):
-        bit=1<<i
-        if(bit>b):
-            return x
-        if(bit&b):
-            x*=power
-            x%=n
-        power*=power
-        power%=n
-    return x
-print(power_mod(55,96,1234))
+# def power_mod(a,b,n):
+#     x = 1 
+#     power = a%n
+#     for i in range(0,4300):
+#         bit=1<<i
+#         if(bit>b):
+#             return x
+#         if(bit&b):
+#             x*=power
+#             x%=n
+#         power*=power
+#         power%=n
+#     return x
+# print(power_mod(55,96,1234))
 
 

@@ -46,7 +46,6 @@ d = modinv(e,fai)
 print("d is: ",d)
 
 def encrypt(plain_text):
-    print("plain Text is: ",plain_text)
     cipher_text=power_mod(plain_text,e,n)
     return cipher_text
 def decrypt(cipher_text):
@@ -107,9 +106,7 @@ def send():
             client.close()
             break
         message=encoder(message)
-        print("after encoding: ",message)
         message=str(encrypt(message))
-        print("after encrypting: ",message)
         client.send(message.encode('utf-8'))
 
 threading.Thread(target=receive).start()
