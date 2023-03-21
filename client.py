@@ -3,16 +3,40 @@ import threading
 import sys
 import signal
 import os
+print("arguements are: ", sys.argv)
+p=int(sys.argv[1])
+q=int(sys.argv[2])
+e=int(sys.argv[3])
+n=p*q
+fai = (p-1)*(q-1)
 
-SERVER= socket.gethostbyname(socket.gethostname())
-PORT = 5050
-ADDR = (SERVER, PORT)
+def gcd(a,b,x,y):
+    if(a==0):
+        return (0,1,b)
+    else:
+        x_prev,y_prev,gcd_val=gcd(b%a,a,x,y)
+        x=y_prev-(b//a)*x_prev
+        y=x_prev
+        return (x,y,gcd_val)
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# bind the server socket to the address
-client.connect(ADDR)
+def modinv(a,m):
+    x,y,gcd_val=gcd(a,m,0,0)
+    if(gcd_val!=1):
+        return -1
+    else:
+        return (x%m+m)%m
 
+
+d = modinv(e,fai)
+print("d is: ",d,gcd(2,5,1,1))
+
+def encrypt(plain_text):
+    cipher_text=(plain_text**e)%n
+    return cipher_text
+def decrypt(cipher_text):
+    plain_text=(cipher_text**d)%n
+    return plain_text
 def encoder(message):
     result= 0
     for (i,c) in enumerate(message):
@@ -23,7 +47,7 @@ def encoder(message):
         else:
             val=36
         result+=val*(37**i)
-    return str(result)
+    return result
 
 def decoder(message):
     result=""
@@ -39,6 +63,16 @@ def decoder(message):
     return result
 
 
+    
+SERVER= socket.gethostbyname(socket.gethostname())
+PORT = 5050
+ADDR = (SERVER, PORT)
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# bind the server socket to the address
+client.connect(ADDR)
+
 # this function handles the client connection
 def receive():
     try:
@@ -47,7 +81,8 @@ def receive():
                 message=client.recv(1024).decode('utf-8')
                 if message:
                     break
-            message=decoder(int(message))
+            message=decrypt(int(message))
+            message=decoder(message)
             print(f'He:{message}')
     except:
         print("client is closed")
@@ -64,6 +99,7 @@ def send():
             client.close()
             break
         message=encoder(message)
+        message=str(encrypt(message))
         client.send(message.encode('utf-8'))
 
 threading.Thread(target=receive).start()

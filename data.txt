@@ -1,0 +1,2 @@
+python client.py 73 11 719
+python client.py 17 19 287
