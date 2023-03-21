@@ -6,9 +6,23 @@ import os
 print("arguements are: ", sys.argv)
 p=int(sys.argv[1])
 q=int(sys.argv[2])
-e=int(sys.argv[3])
 n=p*q
+e=n-2
 fai = (p-1)*(q-1)
+
+def power_mod(a,b,n):
+    x = 1 
+    power = a%n
+    for i in range(0,4300):
+        bit=1<<i
+        if(bit>b):
+            return x
+        if(bit&b):
+            x*=power
+            x%=n
+        power*=power
+        power%=n
+    return x
 
 def gcd(a,b,x,y):
     if(a==0):
@@ -29,13 +43,14 @@ def modinv(a,m):
 
 
 d = modinv(e,fai)
-print("d is: ",d,gcd(2,5,1,1))
+print("d is: ",d)
 
 def encrypt(plain_text):
-    cipher_text=(plain_text**e)%n
+    print("plain Text is: ",plain_text)
+    cipher_text=power_mod(plain_text,e,n)
     return cipher_text
 def decrypt(cipher_text):
-    plain_text=(cipher_text**d)%n
+    plain_text=power_mod(cipher_text,d,n)
     return plain_text
 def encoder(message):
     result= 0
@@ -75,8 +90,7 @@ client.connect(ADDR)
 
 # this function handles the client connection
 def receive():
-    try:
-        while True:
+    while True:
             while True:
                 message=client.recv(1024).decode('utf-8')
                 if message:
@@ -84,12 +98,6 @@ def receive():
             message=decrypt(int(message))
             message=decoder(message)
             print(f'He:{message}')
-    except:
-        print("client is closed")
-        client.close()
-        pid = os.getpid()
-        os.kill(pid, signal.SIGINT)
-    
 
 def send():
     while True:
@@ -99,7 +107,9 @@ def send():
             client.close()
             break
         message=encoder(message)
+        print("after encoding: ",message)
         message=str(encrypt(message))
+        print("after encrypting: ",message)
         client.send(message.encode('utf-8'))
 
 threading.Thread(target=receive).start()
