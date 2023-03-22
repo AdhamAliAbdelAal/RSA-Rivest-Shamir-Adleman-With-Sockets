@@ -31,9 +31,8 @@ def handle_client(conn, addr):
     # receive the public key from the client
     while True:
         key = conn.recv(1024).decode('utf-8')
-        if(key):
-            keys[me]=key
-            break
+        keys[me]=key
+        break
     # if all clients are connected, send the public keys to each other
     if(me==1):
         clients_conns[me].send(keys[you].encode('utf-8'))
@@ -42,16 +41,14 @@ def handle_client(conn, addr):
     # receive the messages from the clients
     while True:
         message = conn.recv(1024).decode('utf-8')
-        if message:
-            print(message)
-            if message == 'DISCONNECT':
-                conn.close()
-                break
-            clients_conns[you].send(message.encode('utf-8'))
+        if message == 'DISCONNECT':
+            conn.close()
+            break
+        clients_conns[you].send(message.encode('utf-8'))
 
 
 def start():
-    server.listen()
+    server.listen(2)
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         conn, addr = server.accept()

@@ -29,13 +29,11 @@ client.send((str(n)+','+str(e)).encode('utf-8'))
 
 
 # Get the other client's public key
-while True:
-    public_key = client.recv(1024).decode('utf-8').split(',')
-    if public_key:
-        public_n = int(public_key[0])
-        public_e = int(public_key[1])
-        print("the other client public key is: ",public_key)
-        break
+public_key = client.recv(1024).decode('utf-8').split(',')
+public_n = int(public_key[0])
+public_e = int(public_key[1])
+print("the other client public key is: ",public_key)
+
 
 
 # this function handles the client connection
