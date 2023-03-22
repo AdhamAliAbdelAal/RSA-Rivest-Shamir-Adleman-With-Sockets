@@ -27,16 +27,19 @@ def handle_client(conn, addr):
     me= threading.active_count()-3
     clients_conns[me]=conn
     you=1-me
-    print("hab3at",you)
-    #print("thread id", conn)
+
+    # receive the public key from the client
     while True:
         key = conn.recv(1024).decode('utf-8')
         if(key):
             keys[me]=key
             break
+    # if all clients are connected, send the public keys to each other
     if(me==1):
         clients_conns[me].send(keys[you].encode('utf-8'))
         clients_conns[you].send(keys[me].encode('utf-8'))
+
+    # receive the messages from the clients
     while True:
         message = conn.recv(1024).decode('utf-8')
         if message:

@@ -4,6 +4,8 @@ import sys
 import signal
 import os
 from utils import *
+
+# Generate the public and private keys
 print("arguements are: ", sys.argv)
 p=int(sys.argv[1])
 q=int(sys.argv[2])
@@ -11,23 +13,20 @@ n=p*q
 e=n-2
 fai = (p-1)*(q-1)
 d = modinv(e,fai)
-print("d is: ",d)
-
-
-
 
     
+# Connect to the server
 SERVER= socket.gethostbyname(socket.gethostname())
 PORT = 5050
 ADDR = (SERVER, PORT)
-
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 # bind the server socket to the address
 client.connect(ADDR)
 
+
 # Send the public key to the server
 client.send((str(n)+','+str(e)).encode('utf-8'))
+
 
 # Get the other client's public key
 while True:

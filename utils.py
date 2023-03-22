@@ -32,9 +32,12 @@ def modinv(a,m):
 def encrypt(plain_text,e,n):
     cipher_text=power_mod(plain_text,e,n)
     return cipher_text
+
 def decrypt(cipher_text,d,n):
     plain_text=power_mod(cipher_text,d,n)
     return plain_text
+
+
 def encoder(message):
     result= 0
     for (i,c) in enumerate(message):
