@@ -46,7 +46,7 @@ d = modinv(e,fai)
 print("d is: ",d)
 
 def encrypt(plain_text):
-    cipher_text=power_mod(plain_text,e,n)
+    cipher_text=power_mod(plain_text,public_e,public_n)
     return cipher_text
 def decrypt(cipher_text):
     plain_text=power_mod(cipher_text,d,n)
@@ -87,6 +87,19 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the server socket to the address
 client.connect(ADDR)
 
+# Send the public key to the server
+client.send((str(n)+','+str(e)).encode('utf-8'))
+
+# Get the other client's public key
+while True:
+    public_key = client.recv(1024).decode('utf-8').split(',')
+    if public_key:
+        public_n = int(public_key[0])
+        public_e = int(public_key[1])
+        print("the other client public key is: ",public_key)
+        break
+
+
 # this function handles the client connection
 def receive():
     while True:
@@ -108,6 +121,7 @@ def send():
         message=encoder(message)
         message=str(encrypt(message))
         client.send(message.encode('utf-8'))
+
 
 threading.Thread(target=receive).start()
 threading.Thread(target=send).start()

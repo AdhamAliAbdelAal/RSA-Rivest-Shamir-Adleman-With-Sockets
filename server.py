@@ -20,7 +20,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 clients_conns = [None]*2
-
+keys=[None]*2
 
 # this function handles the client connection
 def handle_client(conn, addr):
@@ -29,6 +29,14 @@ def handle_client(conn, addr):
     you=1-me
     print("hab3at",you)
     #print("thread id", conn)
+    while True:
+        key = conn.recv(1024).decode('utf-8')
+        if(key):
+            keys[me]=key
+            break
+    if(me==1):
+        clients_conns[me].send(keys[you].encode('utf-8'))
+        clients_conns[you].send(keys[me].encode('utf-8'))
     while True:
         message = conn.recv(1024).decode('utf-8')
         if message:
