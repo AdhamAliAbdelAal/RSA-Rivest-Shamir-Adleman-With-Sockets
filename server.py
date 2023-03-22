@@ -4,6 +4,7 @@ import sys
 import signal
 import os
 
+
 # this is the ip address of the server
 # socket.gethostbyname(socket.gethostname()) is the ip address of the server
 # socket.gethostname() is the name of the server
@@ -57,14 +58,6 @@ def start():
         print(
             f'[CLIENT NUMBER {threading.active_count() - 2} IS CONNECTED]')
 
-
-# to handle the ctrl+c
-def signal_handler(signal, frame):
-    print('Server is closing...')
-    server.close()
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, signal_handler)
 
 threading.Thread(target=start).start()
 

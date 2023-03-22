@@ -21,20 +21,20 @@
 #     return result
 
 # print(encoder("hello"))
-def gcd(a,b,x,y):
-    if(a==0):
-        return (0,1,b)
-    else:
-        x_prev,y_prev,gcd_val=gcd(b%a,a,x,y)
-        x=y_prev-(b//a)*x_prev
-        y=x_prev
-        return (x,y,gcd_val)
-p=199933
-q= 939391
-n=p*q
-e=n-2
-fai = (p-1)*(q-1)
-print(gcd( e,fai,1,1))
+# def gcd(a,b,x,y):
+#     if(a==0):
+#         return (0,1,b)
+#     else:
+#         x_prev,y_prev,gcd_val=gcd(b%a,a,x,y)
+#         x=y_prev-(b//a)*x_prev
+#         y=x_prev
+#         return (x,y,gcd_val)
+# p=199933
+# q= 939391
+# n=p*q
+# e=n-2
+# fai = (p-1)*(q-1)
+# print(gcd( e,fai,1,1))
 #print(1<<4300)
 
 # def power_mod(a,b,n):
@@ -53,5 +53,12 @@ print(gcd( e,fai,1,1))
 # print(power_mod(55,96,1234))
 # x="11,83"
 # print(x.split(","))
+
+def adham(a,b):
+    print(a,b)
+# temp=**{"arg1": "Geeks", "arg2": "for", "arg3": "Geeks"}
+# print()
+adham(*[1,2])
+
 
 
