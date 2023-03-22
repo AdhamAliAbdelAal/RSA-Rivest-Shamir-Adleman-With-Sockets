@@ -39,13 +39,10 @@ print("the other client public key is: ",public_key)
 # this function handles the client connection
 def receive():
     while True:
-            while True:
-                message=client.recv(1024).decode('utf-8')
-                if message:
-                    break
-            message=decrypt(int(message),d,n)
-            message=decoder(message)
-            print(f'He:{message}')
+        message=client.recv(1024).decode('utf-8')
+        message=decrypt(int(message),d,n)
+        message=decoder(message)
+        print(f'He:{message}')
 
 def send():
     while True:
