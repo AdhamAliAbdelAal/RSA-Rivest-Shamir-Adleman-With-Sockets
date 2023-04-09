@@ -4,16 +4,20 @@ import sys
 import signal
 import os
 from utils import *
+from sympy import randprime
 
 # Generate the public and private keys
-print("arguements are: ", sys.argv)
-p=int(sys.argv[1])
-q=int(sys.argv[2])
+p=randprime(10**50,10**60)
+q=randprime(10**50,10**60)
+# Make sure that p and q are different
+while(p==q):
+    q=randprime(10**50,10**60)
 n=p*q
-e=n-2
 fai = (p-1)*(q-1)
+# Choose e such that it is coprime with fai and less than fai gcd(x,x-1) is always 1
+e=fai-1
+# Calculate the private key
 d = modinv(e,fai)
-
     
 # Connect to the server
 SERVER= socket.gethostbyname(socket.gethostname())
@@ -45,7 +49,6 @@ def receive():
         # Get the number of sets of 5 characters
         encrypted_message=encrypted_message.split(' ')
         message_sets_len=len(encrypted_message)
-        print(encrypted_message)
         message=''
         for i in range(message_sets_len):
             decrypted_block=decrypt(int(encrypted_message[i]),d,n)
