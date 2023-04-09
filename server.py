@@ -21,19 +21,20 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 
 clients_conns = [None]*2
-keys=[None]*2
+keys = [None]*2
 
 # this function handles the client connection
+
+
 def handle_client(conn, addr):
-    me= threading.active_count()-3
-    clients_conns[me]=conn
-    you=1-me
+    me = threading.active_count()-3
+    clients_conns[me] = conn
+    you = 1-me
 
     # receive the public key from the client
-    while True:
-        key = conn.recv(1024).decode('utf-8')
-        keys[me]=key
-        break
+    key = conn.recv(1024).decode('utf-8')
+    keys[me]=key
+    
     # if all clients are connected, send the public keys to each other
     if(me==1):
         clients_conns[me].send(keys[you].encode('utf-8'))
