@@ -33,7 +33,7 @@ client.send((str(n)+','+str(e)).encode('utf-8'))
 
 
 # Get the other client's public key
-public_key = client.recv(1024).decode('utf-8').split(',')
+public_key = client.recv(1<<20).decode('utf-8').split(',')
 public_n = int(public_key[0])
 public_e = int(public_key[1])
 print("the other client public key is: ",public_key)
@@ -44,7 +44,7 @@ print("the other client public key is: ",public_key)
 def receive():
     while True:
         # Receive the encrypted message
-        encrypted_message=client.recv(1024).decode('utf-8')
+        encrypted_message=client.recv(1<<20).decode('utf-8')
 
         # Get the number of sets of 5 characters
         encrypted_message=encrypted_message.split(' ')
