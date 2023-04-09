@@ -60,6 +60,7 @@ def send():
     while True:
         # Get the message from the user
         message = input()
+        message=message.lower()
 
         # Terminate the connection if the user enter x
         if(message=='x'):
