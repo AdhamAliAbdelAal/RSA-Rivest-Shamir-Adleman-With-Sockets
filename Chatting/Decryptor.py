@@ -1,4 +1,5 @@
 from utils import *
+
 class Decryptor:
     # Constructor
     def __init__(self,n,d):

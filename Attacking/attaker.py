@@ -1,7 +1,7 @@
 from encryption_model import *
-from utils import *
 import time
 import matplotlib.pyplot as plt
+import numpy as np
 plain_text = "hello"
 def factorize(n):
     i=2
@@ -28,7 +28,7 @@ for i in n_bits:
     breaking_cipher_time.append(time.time()-start_time)
     print(decoder(decrypted_message))
 
-plt.plot(n_bits[:len(breaking_cipher_time)],breaking_cipher_time,marker="x",c="r")
+plt.plot(np.array(n_bits[:len(breaking_cipher_time)])*2,breaking_cipher_time,marker="x",c="r")
 plt.xlabel("number of bits of n")
 plt.ylabel("Time(seconds)")
 plt.title("Breaking cipher time")
