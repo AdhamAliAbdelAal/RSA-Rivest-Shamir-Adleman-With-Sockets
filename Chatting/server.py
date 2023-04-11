@@ -21,6 +21,7 @@ server.bind(ADDR)
 
 clients_conns = [None]*2
 keys = [None]*2
+names= [None]*2
 
 # this function handles the client connection
 
@@ -30,12 +31,19 @@ def handle_client(conn, addr):
     clients_conns[me] = conn
     you = 1-me
 
+    # receive the client name
+    name = conn.recv(1<<20).decode('utf-8')
+    names[me]=name
+
     # receive the public key from the client
     key = conn.recv(1<<20).decode('utf-8')
     keys[me]=key
 
     # if all clients are connected, send the public keys to each other
     if(me==1):
+        # send names and keys to each other
+        clients_conns[me].send(names[you].encode('utf-8'))
+        clients_conns[you].send(names[me].encode('utf-8'))
         clients_conns[me].send(keys[you].encode('utf-8'))
         clients_conns[you].send(keys[me].encode('utf-8'))
 

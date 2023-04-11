@@ -14,6 +14,10 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the server socket to the address
 client.connect(ADDR)
 
+# Get the client name
+name=input("Enter your name: ")
+client.send(name.encode('utf-8'))
+
 # Create the encryptor object
 encryptor=Encryptor()
 
@@ -26,6 +30,8 @@ d=encryptor.get_private_key()
 # Send the public key to the server
 client.send((str(n)+','+str(e)).encode('utf-8'))
 
+#Get the other client name
+other_name=client.recv(1<<20).decode('utf-8')
 
 # Get the other client's public key
 public_key = client.recv(1<<20).decode('utf-8').split(',')
@@ -50,7 +56,7 @@ def receive():
         message=decryptor.decrypt_and_decode(encrypted_message)
         
         # Print the message
-        print(f'He:{message}')
+        print(f'{other_name}:{message}')
 
 def send():
     while True:

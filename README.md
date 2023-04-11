@@ -17,17 +17,17 @@ transmission.
 
 1. **_Start the server_**
 ```sh
-$ python server.py
+python server.py
 ```
 
 2. **_Start the first client_**
 ```sh
-$ python client.py
+python client.py
 ```
 
 3. **_Start the second client_**
 ```sh
-$ python client.py
+python client.py
 ```
 
 
