@@ -4,7 +4,6 @@ from Encryptor import Encryptor
 from Decryptor import Decryptor
 from utils import *
 
-
     
 # Connect to the server
 SERVER= socket.gethostbyname(socket.gethostname())
