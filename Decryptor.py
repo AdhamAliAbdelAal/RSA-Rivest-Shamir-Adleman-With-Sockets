@@ -31,7 +31,7 @@ class Decryptor:
         message_sets_len=len(encrypted_message)
         message=''
         for i in range(message_sets_len):
-            decrypted_block=decrypt(int(encrypted_message[i]),self.d,self.n)
-            message+=decoder(decrypted_block)   
+            decrypted_block=self.decrypt(int(encrypted_message[i]))
+            message+=self.decode(decrypted_block)   
         return message
     

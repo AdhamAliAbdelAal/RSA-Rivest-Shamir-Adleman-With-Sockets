@@ -57,8 +57,8 @@ class Encryptor:
             message_len+=(5-message_len%5)
         message_encrypted=[]
         for i in range(0,message_len,5):
-            message_encoded=encoder(message[i:i+5])
-            message_encrypted.append(str(encrypt(message_encoded,self.other_party_e,self.other_party_n)))
+            message_encoded=self.encode(message[i:i+5])
+            message_encrypted.append(str(self.encrypt(message_encoded)))
         message_encrypted=' '.join(message_encrypted)
         return message_encrypted
     
