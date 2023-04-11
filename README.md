@@ -15,7 +15,7 @@ transmission.
 
 ## Chatting Module
 ### Running
-1. **_Open chatting directory_**
+1. **_Open Chatting directory_**
 
 2. **_Start the server_**
 ```sh
@@ -38,6 +38,23 @@ python client.py
 <hr />
 
 ![image](./Screenshots/clients.png)
+
+<hr />
+
+
+## Attacking Module
+### Running
+1. **_Open Attacking directory_**
+
+2. **_Run the attacker_**
+```sh
+python attacker.py
+```
+
+### Screenshots
+![image](./Screenshots/img.png)
+
+<hr />
 
 
 
