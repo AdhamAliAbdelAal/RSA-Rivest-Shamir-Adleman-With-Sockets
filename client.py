@@ -1,20 +1,10 @@
 import socket
 import threading
+from Encryptor import Encryptor
+from Decryptor import Decryptor
 from utils import *
-from sympy import randprime
 
-# Generate the public and private keys
-p=randprime(10**50,10**60)
-q=randprime(10**50,10**60)
-# Make sure that p and q are different
-while(p==q):
-    q=randprime(10**50,10**60)
-n=p*q
-fai = (p-1)*(q-1)
-# Choose e such that it is coprime with fai and less than fai gcd(x,x-1) is always 1
-e=fai-1
-# Calculate the private key
-d = modinv(e,fai)
+
     
 # Connect to the server
 SERVER= socket.gethostbyname(socket.gethostname())
@@ -24,6 +14,14 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # bind the server socket to the address
 client.connect(ADDR)
 
+# Create the encryptor object
+encryptor=Encryptor()
+
+# Get the public key
+n,e=encryptor.get_public_key()
+
+# Get the private key
+d=encryptor.get_private_key()
 
 # Send the public key to the server
 client.send((str(n)+','+str(e)).encode('utf-8'))
@@ -33,7 +31,12 @@ client.send((str(n)+','+str(e)).encode('utf-8'))
 public_key = client.recv(1<<20).decode('utf-8').split(',')
 public_n = int(public_key[0])
 public_e = int(public_key[1])
+encryptor.set_other_party_public_key(public_n,public_e)
 print("the other client public key is: ",public_key)
+
+
+# Create Decryptor object
+decryptor=Decryptor(n,d)
 
 
 
@@ -43,14 +46,10 @@ def receive():
         # Receive the encrypted message
         encrypted_message=client.recv(1<<20).decode('utf-8')
 
-        # Get the number of sets of 5 characters
-        encrypted_message=encrypted_message.split(' ')
-        message_sets_len=len(encrypted_message)
-        message=''
-        for i in range(message_sets_len):
-            decrypted_block=decrypt(int(encrypted_message[i]),d,n)
-            message+=decoder(decrypted_block)    
+        # Decrypt and decode the message
+        message=decryptor.decrypt_and_decode(encrypted_message)
         
+        # Print the message
         print(f'He:{message}')
 
 def send():
@@ -64,17 +63,7 @@ def send():
             client.send("DISCONNECT".encode('utf-8'))
             client.close()
             break
-
-        # Append spaces to the message to make it a multiple of 5
-        message_len=len(message)
-        if(message_len%5!=0):
-            message+=' '*(5-message_len%5)
-            message_len+=(5-message_len%5)
-        message_encrypted=[]
-        for i in range(0,message_len,5):
-            message_encoded=encoder(message[i:i+5])
-            message_encrypted.append(str(encrypt(message_encoded,public_e,public_n)))
-        message_encrypted=' '.join(message_encrypted)
+        message_encrypted=encryptor.encrypt_and_encode(message)
         client.send(message_encrypted.encode('utf-8'))
 
 
