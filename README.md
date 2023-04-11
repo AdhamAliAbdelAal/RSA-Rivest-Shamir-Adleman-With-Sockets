@@ -14,20 +14,32 @@ transmission.
 > This is a list of needed instructions to run chatting and attacking programs.
 
 ## Chatting Module
+### Running
+1. **_Open chatting directory_**
 
-1. **_Start the server_**
+2. **_Start the server_**
 ```sh
 python server.py
 ```
 
-2. **_Start the first client_**
+3. **_Start the first client_**
 ```sh
 python client.py
 ```
 
-3. **_Start the second client_**
+4. **_Start the second client_**
 ```sh
 python client.py
 ```
+
+### Screenshots
+![image](./Screenshots/server.png)
+
+<hr />
+
+![image](./Screenshots/clients.png)
+
+
+
 
 
