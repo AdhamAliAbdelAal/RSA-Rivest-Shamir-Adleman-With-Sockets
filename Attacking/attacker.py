@@ -22,11 +22,11 @@ n_bits = range(15,27)
 breaking_cipher_time = []
 for i in n_bits:
     e,n,cipher_text = encrypt_black_box(plain_text,i)
-    print(e,n,cipher_text)
+    #print(e,n,cipher_text)
     start_time = time.time()
     decrypted_message = attack(e,n,cipher_text)
     breaking_cipher_time.append(time.time()-start_time)
-    print(decoder(decrypted_message))
+    #print(decoder(decrypted_message))
 
 plt.plot(np.array(n_bits[:len(breaking_cipher_time)])*2,breaking_cipher_time,marker="x",c="r")
 plt.xlabel("number of bits of n")
