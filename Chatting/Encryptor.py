@@ -3,10 +3,10 @@ from sympy import randprime
 class Encryptor:
 
     # Constructor
-    def __init__(self):
+    def __init__(self,bits_s=170,bits_e=180):
         # Generate the public and private keys
-        self.p=randprime(10**50,10**60)
-        self.q=randprime(10**50,10**60)
+        self.p=randprime(1<<bits_s,1<<(bits_e))
+        self.q=randprime(1<<bits_s,1<<(bits_e))
         # Make sure that p and q are different
         while(self.p==self.q):
             self.q=randprime(10**50,10**60)

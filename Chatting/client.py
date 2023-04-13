@@ -18,7 +18,7 @@ name=input("Enter your name: ")
 client.send(name.encode('utf-8'))
 
 # Create the encryptor object
-encryptor=Encryptor()
+encryptor=Encryptor(170,200)
 
 # Get the public key
 n,e=encryptor.get_public_key()
