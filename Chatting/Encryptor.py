@@ -65,7 +65,7 @@ class Encryptor:
         self.time=time.time()-self.time
         return message_encrypted
     
-    # Decrypt a message
+    #  Calculate the time taken to encrypt and encode a message
     def get_time(self):
         return self.time
 
