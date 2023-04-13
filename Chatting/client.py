@@ -1,5 +1,7 @@
 import socket
 import threading
+import os
+import signal
 from Encryptor import Encryptor
 from Decryptor import Decryptor
 from utils import *
@@ -43,34 +45,48 @@ print("the other client public key is: ",public_key)
 # Create Decryptor object
 decryptor=Decryptor(n,d)
 
-
+# kill the program  in case of error
+def kill_program():
+    pid = os.getpid()
+    os.kill(pid, signal.SIGINT)
 
 # this function handles the client connection
 def receive():
-    while True:
-        # Receive the encrypted message
-        encrypted_message=client.recv(1<<20).decode('utf-8')
+    try:
+        while True:
+            # Receive the encrypted message
+            encrypted_message=client.recv(1<<20).decode('utf-8')
 
-        # Decrypt and decode the message
-        message=decryptor.decrypt_and_decode(encrypted_message)
-        
-        # Print the message
-        print(f'{other_name}:{message}')
+            # Decrypt and decode the message
+            message=decryptor.decrypt_and_decode(encrypted_message)
+            
+            # Print the message
+            print(f'{other_name}:{message}')
+    except Exception as e:
+        print("bye🖐 bye🖐")
+        client.close()
+        kill_program()
+
 
 def send():
-    while True:
-        # Get the message from the user
-        message = input()
-        message=message.lower()
+    try:
+        while True:
+            # Get the message from the user
+            message = input()
+            message=message.lower()
 
-        # Terminate the connection if the user enter x
-        if(message=='x'):
-            client.send("DISCONNECT".encode('utf-8'))
-            client.close()
-            break
-        message_encrypted=encryptor.encrypt_and_encode(message)
-        client.send(message_encrypted.encode('utf-8'))
-
+            # Terminate the connection if the user enter x
+            if(message=='x'):
+                client.send("DISCONNECT".encode('utf-8'))
+                client.close()
+                break
+            message_encrypted=encryptor.encrypt_and_encode(message)
+            client.send(message_encrypted.encode('utf-8'))
+    except Exception as e:
+        print("bye🖐 bye🖐")
+        client.close()
+        kill_program()
+    
 
 threading.Thread(target=receive).start()
 threading.Thread(target=send).start()
