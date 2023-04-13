@@ -4,19 +4,21 @@ import time
 class Encryptor:
 
     # Constructor
-    def __init__(self,bits_s=170,bits_e=180):
+    def __init__(self,bits_s=170,bits_e=180,selfy=False):
         # Generate the public and private keys
-        self.p=randprime(1<<bits_s,1<<(bits_e))
-        self.q=randprime(1<<bits_s,1<<(bits_e))
+        self.p=randprime(1<<bits_s,1<<bits_e)
+        self.q=randprime(1<<bits_s,1<<bits_e)
         # Make sure that p and q are different
         while(self.p==self.q):
-            self.q=randprime(10**50,10**60)
+            self.q=randprime(1<<bits_s,1<<(bits_e))
         self.n=self.p*self.q
         self.fai = (self.p-1)*(self.q-1)
         # Choose e such that it is coprime with fai and less than fai gcd(x,x-1) is always 1
         self.e=self.fai-1
         # Calculate the private key
         self.d = modinv(self.e,self.fai)
+        if(selfy):
+            self.set_other_party_public_key(self.n,self.e)
 
     # Set the public key of the other party
     def set_other_party_public_key(self,n,e):
