@@ -41,7 +41,7 @@ python client.py
 
 <hr />
 
-![image](./Screenshots/clients.png)
+![image](./Screenshots/client.png)
 
 <hr />
 
