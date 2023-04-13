@@ -33,6 +33,10 @@ python client.py
 ```
 
 ### Screenshots
+![image](./Screenshots/analysis.png)
+
+<hr />
+
 ![image](./Screenshots/server.png)
 
 <hr />
