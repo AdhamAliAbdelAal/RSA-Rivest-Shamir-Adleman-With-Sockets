@@ -18,7 +18,7 @@ class Encryptor:
         # Calculate the private key
         self.__d = modinv(self.__e,self.__fai)
         if(selfy):
-            self.__set_other_party_public_key(self.__n,self.__e)
+            self.set_other_party_public_key(self.__n,self.__e)
 
     # Set the public key of the other party
     def set_other_party_public_key(self,n,e):
