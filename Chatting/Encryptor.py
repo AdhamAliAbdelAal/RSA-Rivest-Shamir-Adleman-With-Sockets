@@ -6,32 +6,32 @@ class Encryptor:
     # Constructor
     def __init__(self,bits_s=170,bits_e=180,selfy=False):
         # Generate the public and private keys
-        self.p=randprime(1<<bits_s,1<<bits_e)
-        self.q=randprime(1<<bits_s,1<<bits_e)
+        self.__p=randprime(1<<bits_s,1<<bits_e)
+        self.__q=randprime(1<<bits_s,1<<bits_e)
         # Make sure that p and q are different
-        while(self.p==self.q):
-            self.q=randprime(1<<bits_s,1<<(bits_e))
-        self.n=self.p*self.q
-        self.fai = (self.p-1)*(self.q-1)
+        while(self.__p==self.__q):
+            self.__q=randprime(1<<bits_s,1<<(bits_e))
+        self.__n=self.__p*self.__q
+        self.__fai = (self.__p-1)*(self.__q-1)
         # Choose e such that it is coprime with fai and less than fai gcd(x,x-1) is always 1
-        self.e=self.fai-1
+        self.__e=self.__fai-1
         # Calculate the private key
-        self.d = modinv(self.e,self.fai)
+        self.__d = modinv(self.__e,self.__fai)
         if(selfy):
-            self.set_other_party_public_key(self.n,self.e)
+            self.__set_other_party_public_key(self.__n,self.__e)
 
     # Set the public key of the other party
     def set_other_party_public_key(self,n,e):
-        self.other_party_n=n
-        self.other_party_e=e
+        self.__other_party_n=n
+        self.__other_party_e=e
 
     # Get the public key
     def get_public_key(self):
-        return (self.n,self.e)
+        return (self.__n,self.__e)
     
     # Get the private key
     def get_private_key(self):
-        return self.d
+        return self.__d
     
     # Encode a message
     def encode(self,message):
@@ -48,12 +48,12 @@ class Encryptor:
     
     # Encrypt a message
     def encrypt(self,message):
-        cipher_text=power_mod(message,self.other_party_e,self.other_party_n)
+        cipher_text=power_mod(message,self.__other_party_e,self.__other_party_n)
         return cipher_text
     
     # Encrypt and encode a message
     def encrypt_and_encode(self,message):
-        self.time=time.time()
+        self.__time=time.time()
         # Append spaces to the message to make it a multiple of 5
         message_len=len(message)
         if(message_len%5!=0):
@@ -64,10 +64,10 @@ class Encryptor:
             message_encoded=self.encode(message[i:i+5])
             message_encrypted.append(str(self.encrypt(message_encoded)))
         message_encrypted=' '.join(message_encrypted)
-        self.time=time.time()-self.time
+        self.__time=time.time()-self.__time
         return message_encrypted
     
     #  Calculate the time taken to encrypt and encode a message
     def get_time(self):
-        return self.time
+        return self.__time
 

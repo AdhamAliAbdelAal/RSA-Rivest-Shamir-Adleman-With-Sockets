@@ -3,8 +3,8 @@ import time
 class Decryptor:
     # Constructor
     def __init__(self,n,d):
-        self.n=n
-        self.d=d
+        self.__n=n
+        self.__d=d
 
     # Decode a message
     def decode(self,message):
@@ -22,12 +22,12 @@ class Decryptor:
     
     # Decrypt a message
     def decrypt(self,message):
-        plain_text=power_mod(message,self.d,self.n)
+        plain_text=power_mod(message,self.__d,self.__n)
         return plain_text
     
     # Decrypt and decode a message
     def decrypt_and_decode(self,encrypted_message):
-        self.time=time.time()
+        self.__time=time.time()
         # Get the number of sets of 5 characters
         encrypted_message=encrypted_message.split(' ')
         message_sets_len=len(encrypted_message)
@@ -35,9 +35,9 @@ class Decryptor:
         for i in range(message_sets_len):
             decrypted_block=self.decrypt(int(encrypted_message[i]))
             message+=self.decode(decrypted_block)   
-        self.time=time.time()-self.time
+        self.__time=time.time()-self.__time
         return message
     
     # Get the time taken to decrypt and decode a message
     def get_time(self):
-        return self.time
+        return self.__time
