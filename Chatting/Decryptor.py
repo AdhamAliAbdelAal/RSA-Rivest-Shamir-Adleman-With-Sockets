@@ -1,5 +1,5 @@
 from utils import *
-
+import time
 class Decryptor:
     # Constructor
     def __init__(self,n,d):
@@ -27,6 +27,7 @@ class Decryptor:
     
     # Decrypt and decode a message
     def decrypt_and_decode(self,encrypted_message):
+        self.time=time.time()
         # Get the number of sets of 5 characters
         encrypted_message=encrypted_message.split(' ')
         message_sets_len=len(encrypted_message)
@@ -34,5 +35,9 @@ class Decryptor:
         for i in range(message_sets_len):
             decrypted_block=self.decrypt(int(encrypted_message[i]))
             message+=self.decode(decrypted_block)   
+        self.time=time.time()-self.time
         return message
     
+    # Get the time taken to decrypt and decode a message
+    def get_time(self):
+        return self.time

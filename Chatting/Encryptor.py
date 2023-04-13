@@ -1,5 +1,6 @@
 from utils import *
 from sympy import randprime
+import time
 class Encryptor:
 
     # Constructor
@@ -50,6 +51,7 @@ class Encryptor:
     
     # Encrypt and encode a message
     def encrypt_and_encode(self,message):
+        self.time=time.time()
         # Append spaces to the message to make it a multiple of 5
         message_len=len(message)
         if(message_len%5!=0):
@@ -60,6 +62,10 @@ class Encryptor:
             message_encoded=self.encode(message[i:i+5])
             message_encrypted.append(str(self.encrypt(message_encoded)))
         message_encrypted=' '.join(message_encrypted)
+        self.time=time.time()-self.time
         return message_encrypted
     
+    # Decrypt a message
+    def get_time(self):
+        return self.time
 
